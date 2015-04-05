@@ -1,4 +1,7 @@
-#   Learn and improve the paddle_ball game in the book
+#!/usr/bin/env python 
+# -*- coding: utf-8 -*-
+' Learn and improve the paddle_ball game in the book '
+__author__ = 'mota'
 from tkinter import*
 import random
 import time
