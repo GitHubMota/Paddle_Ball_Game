@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/local/bin/python3.4 
 # -*- coding: utf-8 -*-
 ' Learn and improve the paddle_ball game in the book '
 __author__ = 'mota'
@@ -74,17 +74,24 @@ class Paddle:
 
         self.canvas.bind_all('<KeyPress-Left>',self.turn_left)
         self.canvas.bind_all('<KeyPress-Right>',self.turn_right)
+        self.canvas.bind_all('<KeyRelease>',self.turn_off)
     def draw(self):
-        self.canvas.move(self.id,self.x,0)
         pos = self.canvas.coords(self.id)
-        if pos[0] <= 0 or pos [2] >= self.canvas_width:
-            self.x = 0
+        if pos[0] <= 0: 
+            self.canvas.move(self.id,1,0)
+            self.x = 0 
+        if pos [2] >= self.canvas_width:
+            self.canvas.move(self.id,-1,0)
+            self.x = 0 
+        self.canvas.move(self.id,self.x,0)
 
     def turn_left(self,evt):
         self.x = -5
     def turn_right(self,evt):
         self.x = 5
-       
+    def turn_off(self,evt):
+        self.x = 0
+
 class Full_game:
 #   Display Lifes and Scores
 #   Control Start Game
