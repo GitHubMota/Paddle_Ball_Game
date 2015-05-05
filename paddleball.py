@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 ' Learn and improve the paddle_ball game in the book '
 __author__ = 'mota'
+
 from tkinter import*
 import random
 import time
@@ -14,7 +15,7 @@ canvas.pack()
 tk.update()
 
 class Ball:
-# ball
+'''This is class for ball'''
     def __init__(self,canvas,paddle,full_game,color):
         self.canvas = canvas
         self.paddle = paddle
@@ -30,6 +31,7 @@ class Ball:
         self.hit_bottom = False
 
     def hit_paddle(self,pos):
+        '''ball hits paddle, increase score, increase random speed when scores increased by 2'''
         paddle_pos = self.canvas.coords(self.paddle.id)
         if pos[2] >= paddle_pos[0] and pos[0] <= paddle_pos[2]:
             if pos[3] >= paddle_pos[1] and pos[3] <= paddle_pos[3]:
@@ -40,6 +42,7 @@ class Ball:
         return False
     
     def new_ball(self,color):
+        '''New a ball, initial speed, increase used lifes'''
         self.canvas.delete(self.id)
         self.id = canvas.create_oval(10,10,25,25,fill=color)
         self.canvas.move(self.id,245,100)
@@ -49,6 +52,7 @@ class Ball:
         self.lifes = self.lifes + 1
             
     def draw(self):
+        '''move ball, change the speed'''
         self.canvas.move(self.id,self.x,self.y)
         pos = self.canvas.coords(self.id)
         if pos[1] <= 0:
@@ -64,7 +68,7 @@ class Ball:
             self.x = -self.x
 
 class Paddle:
-# paddle
+'''This is class for paddle'''
     def __init__(self,canvas,color):
         self.canvas = canvas
         self.id = canvas.create_rectangle(0,0,100,10,fill=color)
@@ -75,7 +79,9 @@ class Paddle:
         self.canvas.bind_all('<KeyPress-Left>',self.turn_left)
         self.canvas.bind_all('<KeyPress-Right>',self.turn_right)
         self.canvas.bind_all('<KeyRelease>',self.turn_off)
+
     def draw(self):
+    '''move paddle, change the speed as KeyPress or reach the sides'''
         pos = self.canvas.coords(self.id)
         if pos[0] <= 0: 
             self.canvas.move(self.id,1,0)
@@ -86,15 +92,20 @@ class Paddle:
         self.canvas.move(self.id,self.x,0)
 
     def turn_left(self,evt):
+        '''move to left when KeyPress-Left'''
         self.x = -5
+
     def turn_right(self,evt):
+        '''move to right when KeyPress-Right'''
         self.x = 5
+    
     def turn_off(self,evt):
+        '''stop when KeyRelease'''
         self.x = 0
 
 class Full_game:
-#   Display Lifes and Scores
-#   Control Start Game
+'''Display Lifes and Scores
+Control Start Game'''
     def __init__(self,canvas):
         self.scores = 0
         self.canvas = canvas
@@ -106,15 +117,22 @@ class Full_game:
         self.game_over = canvas.create_text(250,200,text='Game Over',fill='red',font=('Times',30),state='hidden')
 
     def hit_score(self):
+        '''Score increase and record in the board'''
         self.scores = self.scores + 1
         canvas.itemconfig(self.id,text='Score:   %d'%self.scores)
+
     def reset_score(self):
+        '''Score reset and record in the board'''
         self.scores = 0
         canvas.itemconfig(self.id,text='Score:   0')
+
     def add_lifes(self):
+        '''Record the used lifes in the board'''
         self.lifes = self.lifes + 1
         canvas.itemconfig(self.lifeid,text='Lifes:   %d'%self.lifes)
+
     def game_start(self,evt):
+        '''Start the game: reset score, new a life, hide the 'game over'''
         self.running = True
         self.reset_score()
         self.add_lifes()
@@ -125,7 +143,7 @@ paddle = Paddle(canvas,'green')
 ball = Ball(canvas,paddle,full_game,'blue') 
 
 def main():
-#   main
+'''main loop'''
     if __name__ == '__main__':            
         while 1:
             if full_game.running:
